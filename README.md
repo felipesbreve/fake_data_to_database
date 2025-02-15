@@ -1,6 +1,6 @@
-# Fake Data Generator
+# Fake Data To Database
 
-**Fake Data Generator** is a Python library designed to generate fake data and insert it into various databases, including MySQL, SQL Server, PostgreSQL, MongoDB and BigQuery.
+**Fake Data To Database** is a Python library designed to generate fake data and insert it into databases.
 
 ## Features
 - Generate realistic fake data using `Faker`
@@ -12,13 +12,15 @@
 
 You can install the library using pip:
 
-<!-- ```bash
-pip install fake-data-generator
-``` -->
+```bash
+pip install fake-data-to-database
+```
 
-Exemple of use
+## Exemple of use
+You can use the lib as the exemple:
+
 ```python
-import fake_data_generator as fdg
+import fake_data_to_database as fdg
 
 db_config_postgres = {
     "db": "postgres",
