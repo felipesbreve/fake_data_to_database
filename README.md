@@ -12,9 +12,9 @@
 
 You can install the library using pip:
 
-```bash
+<!-- ```bash
 pip install fake-data-generator
-```
+``` -->
 
 Exemple of use
 ```python
