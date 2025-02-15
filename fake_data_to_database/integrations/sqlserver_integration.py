@@ -1,9 +1,9 @@
-import psycopg2
+import pyodbc
 from .base_sql_integration import BaseSQLIntegration
 
 
-class PostgreSQLIntegration(BaseSQLIntegration):
-    def __init__(self, host: str, database: str, user: str, password: str, port: int = 5432):
+class SQLServerIntegration(BaseSQLIntegration):
+    def __init__(self, host: str, database: str, user: str, password: str, port: int = 1433):
         super().__init__()
         self.host = host
         self.port = port
@@ -14,12 +14,14 @@ class PostgreSQLIntegration(BaseSQLIntegration):
 
     def connect(self):
         """Establishes a connection to the PostgreSQL database."""
-        self.conn = psycopg2.connect(
-            host=self.host,
-            database=self.database,
-            user=self.user,
-            password=self.password
+        connection_string = (
+            f'DRIVER={{ODBC Driver 17 for SQL Server}};'
+            f'SERVER={self.host},{self.port};'
+            f'DATABASE={self.database};'
+            f'UID={self.user};'
+            f'PWD={self.password}'
         )
+        self.conn = pyodbc.connect(connection_string)
         self.cursor = self.conn.cursor()
 
     def __enter__(self):

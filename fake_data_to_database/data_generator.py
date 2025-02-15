@@ -100,12 +100,8 @@ class DataGenerator:
         
         :param column_name: The name of the column to generate data for.
         :param field_type: The type of the field (e.g., 'int', 'varchar', etc.).
-        :param nullable: Whether to allow a 10% chance of returning None.
         :return: A value generated based on the field type (e.g., a string, integer, or boolean).
         """
-        if nullable and random.random() < 0.1:
-            return None
-
         # Get the generator corresponding to the field type
         generator = self.get_generator(field_type, column_name)
 

@@ -6,6 +6,7 @@
 - Generate realistic fake data using `Faker`
 - Insert data into:
   - PostgreSQL
+  - SQLServer
 - Easy-to-use interface for bulk data insertion
 
 ## Installation
@@ -25,10 +26,18 @@ import fake_data_to_database as fdg
 db_config_postgres = {
     "db": "postgres",
     "host": "localhost",
-    "port": 5432,
-    "database": "db",
+    # "port": 5432, # Default 5432
+    "database": "testdb",
     "user": "user",
     "password": "password",
+}
+db_config_sqlserver = {
+    "db": "sqlserver",
+    "host": "localhost",
+    # "port": 1433, # Default 1433
+    "database": "master",
+    "user": "SA",
+    "password": "YourStrong!Passw0rd",
 }
 
 fields = {
@@ -39,9 +48,9 @@ fields = {
 }
 
 fdg = fdg.FakeDataGenerator(
-    db_config=db_config_postgres,
-    schema="public",
-    table="teste",
+    db_config=db_config_sqlserver,
+    schema="test",
+    table="test",
     fields_config=fields
 )
 
