@@ -9,12 +9,16 @@ import random
 
 
 class FakeDataGenerator:
-    def __init__(self, db_config: Dict[str, Any], schema: str, table: str, fields_config: Dict[str, Dict[str, Any]]):
+    def __init__(self, db_config: Dict[str, Any], table: str, fields_config: Dict[str, Dict[str, Any]], dataset: str = None, schema: str = None, has_id: bool = True):
+        if not dataset and not schema:
+            raise ValueError("Either 'dataset' or 'schema' must be provided.")
+
         self.data_gen = DataGenerator()
         self.db_config = db_config
-        self.schema = schema
+        self.schema = schema if dataset == None else dataset
         self.table = table
         self.fields_config = fields_config
+        self.has_id = has_id
         self.db_integration = self._get_db_integration(db_config["db"])
 
     def _get_db_integration(self, db_type: str) -> Any:
@@ -72,24 +76,24 @@ class FakeDataGenerator:
         }
         return type_mapping.get(field_type, "TEXT")  # Default to TEXT if type unknown
 
-    def generate_and_insert_data(self, num_records: int, has_id = True, NULLABLE_SEED = 0.1, batch_size = 100):
+    def generate_and_insert_data(self, num_records: int, NULLABLE_SEED = 0.1, batch_size = 100):
         """Generates fake data and inserts it into the database."""
         fields = list(self.fields_config.keys())
-        fields.insert(0, "id") if has_id else None
+        fields.insert(0, "id") if self.has_id else None
         
         with self.db_integration as db:
-            self._create_table_if_not_exists(db, has_id)
+            self._create_table_if_not_exists(db, self.has_id)
 
             batch = []
 
             for _ in range(num_records):
                 values = []
-                if has_id:
+                if self.has_id:
                     values.append(str(uuid.uuid4()))
 
                 for column_name, config in self.fields_config.items():
-                # Se 'nullable' estiver configurado como True, decide se o valor será NULL
-                    if random.random() < NULLABLE_SEED and config["nullable"]:
+                    nullable = config.get("nullable", False)
+                    if random.random() < NULLABLE_SEED and nullable:
                         values.append(None)
                     else:
                         value = self.data_gen.generate_data(column_name, config["type"])

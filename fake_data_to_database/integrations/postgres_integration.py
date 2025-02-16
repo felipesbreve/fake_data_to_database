@@ -3,9 +3,9 @@ from .base_sql_integration import BaseSQLIntegration
 
 
 class PostgreSQLIntegration(BaseSQLIntegration):
-    def __init__(self, host: str, database: str, user: str, password: str, port: int = 5432):
+    def __init__(self, database: str, user: str, password: str, host: str = 'localhost', port: int = 1433, server: str = None):
         super().__init__()
-        self.host = host
+        self.host = server if host == None else host
         self.port = port
         self.database = database
         self.user = user
