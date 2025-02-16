@@ -1,6 +1,6 @@
 # Fake Data To Database
 
-A Python library for generating and inserting fake data into SQL Server and PostgreSQL databases.
+A Python library for generating and inserting fake data into databases.
 
 ## Table of Contents
 - [Description](#description)
